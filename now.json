@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "name": "builder",
+  "build": {
+    "env": {
+      "NODE_PATH": "src",
+      "NODE_ENV": "development",
+      "PUBLIC_URL": "/"
+    }
+  },
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
+    }
+  ]
+}
