@@ -1,11 +1,11 @@
 
-# Beland Builder
+# Beland Sale
 
 You can create beautiful scenes for [Beland](https://beland.io) even if you don't own a parcel.
 
 # How to run
 
-The builder is a SPA or single page application built with [create-react-app](https://github.com/facebook/create-react-app). It uses an [`.env`](#environment) file as configuration for a few things, you'll need to create that first.
+The Beland Sale is a SPA or single page application built with [create-react-app](https://github.com/facebook/create-react-app). It uses an [`.env`](#environment) file as configuration for a few things, you'll need to create that first.
 
 After that, to run this app you have two options:
 
