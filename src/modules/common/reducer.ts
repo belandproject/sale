@@ -5,6 +5,7 @@ import { modalReducer as modal } from '@beland/dapps/dist/modules/modal/reducer'
 import { storageReducer as storage, storageReducerWrapper } from '@beland/dapps/dist/modules/storage/reducer'
 import { walletReducer as wallet } from '@beland/dapps/dist/modules/wallet/reducer'
 import { toastReducer as toast } from '@beland/dapps/dist/modules/toast/reducer'
+import { identityReducer as identity } from 'modules/identity/reducer'
 
 import { RootState } from 'modules/common/types'
 export function createRootReducer(history: History) {
@@ -14,7 +15,8 @@ export function createRootReducer(history: History) {
       router: connectRouter(history),
       wallet,
       storage,
-      toast
+      toast,
+      identity
     })
   )
 }

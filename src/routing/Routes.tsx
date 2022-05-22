@@ -4,6 +4,7 @@ import { Center, Page } from '@beland/uikit'
 import { env } from 'decentraland-commons'
 import { t } from '@beland/dapps/dist/modules/translation/utils'
 
+
 import { locations } from 'routing/locations'
 
 import Footer from 'components/Footer'
@@ -47,9 +48,12 @@ export default class Routes extends React.Component<Props, State> {
     }
 
     return (
-      <Switch>
-        <Route exact path={locations.root()} component={HomePage} />
-      </Switch>
+      <>
+        <Navbar/>
+        <Switch>
+          <Route exact path={locations.root()} component={HomePage} />
+        </Switch>
+      </>
     )
   }
 

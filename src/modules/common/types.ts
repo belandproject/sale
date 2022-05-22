@@ -6,6 +6,7 @@ import { WalletState } from '@beland/dapps/dist/modules/wallet/reducer'
 import { STORAGE_LOAD } from '@beland/dapps/dist/modules/storage/actions'
 import { ToastState } from '@beland/dapps/dist/modules/toast/reducer'
 import { RouterState } from 'connected-react-router'
+import { IdentityState } from 'modules/identity/reducer'
 const storageLoad = () => action(STORAGE_LOAD, {} as RootState)
 export type StorageLoadAction = ReturnType<typeof storageLoad>
 
@@ -15,6 +16,7 @@ export type RootState = {
   router: RouterState
   storage: StorageState,
   toast: ToastState
+  identity: IdentityState
 
 }
 

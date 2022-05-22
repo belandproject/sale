@@ -7,22 +7,27 @@ import HTML5Backend from 'react-dnd-html5-backend'
 
 import ToastProvider from '@beland/dapps/dist/providers/ToastProvider'
 import WalletProvider from '@beland/dapps/dist/providers/WalletProvider'
+import ModalProvider from '@beland/dapps/dist/providers/ModalProvider'
 
 import { store, history } from 'modules/common/store'
 import Routes from 'routing'
+import * as modals from 'components/Modals'
 
 import './themes'
 import './index.css'
+
 
 ReactDOM.render(
   <Provider store={store}>
     <DragDropContextProvider backend={HTML5Backend}>
       <WalletProvider>
-        <ToastProvider>
-          <ConnectedRouter history={history}>
-            <Routes />
-          </ConnectedRouter>
-        </ToastProvider>
+        <ModalProvider components={modals}>
+          <ToastProvider>
+            <ConnectedRouter history={history}>
+              <Routes />
+            </ConnectedRouter>
+          </ToastProvider>
+        </ModalProvider>
       </WalletProvider>
     </DragDropContextProvider>
   </Provider>,

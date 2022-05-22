@@ -6,7 +6,7 @@ export default class Navbar extends React.PureComponent<Props> {
   render() {
     return (
       <div className='be-nav-container'>
-        <BaseNavbar isFullscreen activePage="builder" />
+        <BaseNavbar isFullscreen {...this.props}/>
       </div>
     ) 
   }

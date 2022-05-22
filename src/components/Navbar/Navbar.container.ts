@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
-import { MapStateProps, MapDispatchProps, OwnProps } from './Navbar.types'
+import { MapStateProps, MapDispatchProps, OwnProps, MapDispatch } from './Navbar.types'
 import Navbar from './Navbar'
+import { openModal } from 'modules/modal/actions'
 
-const mapState = (): MapStateProps => ({
-})
+const mapState = (): MapStateProps => ({})
 
-const mapDispatch = (): MapDispatchProps => ({
+const mapDispatch = (dispatch: MapDispatch): MapDispatchProps => ({
+  onSignIn: () => dispatch(openModal('WalletLoginModal', {}))
 })
 
 const mergeProps = (mapStateProps: MapStateProps, mapDispatchProps: MapDispatchProps, ownProps: OwnProps) => ({
