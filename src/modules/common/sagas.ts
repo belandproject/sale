@@ -3,11 +3,14 @@ import { walletSaga } from 'modules/wallet/sagas'
 import { identitySaga } from 'modules/identity/sagas'
 import { modalSaga } from 'modules/modal/sagas'
 import { tileSaga } from 'modules/tile/sagas'
+import { translationSaga } from 'modules/translation/sagas'
+
 export function* rootSaga() {
   yield all([
     walletSaga(),
     identitySaga(),
     modalSaga(),
     tileSaga(),
+    translationSaga()
   ])
 }

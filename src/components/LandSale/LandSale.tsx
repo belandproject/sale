@@ -1,20 +1,33 @@
 import * as React from 'react'
-import { Atlas, Button, Container, Layer, Page } from '@beland/uikit'
+import { Atlas, Container, Layer, Page } from '@beland/uikit'
 
 import Footer from 'components/Footer'
 import { Props, State } from './LandSale.types'
 import './LandSale.css'
 import LandCountdown from './components/LandCountdown/LandCountdown'
+import { ChainButton } from '@beland/dapps/dist/containers'
+import { ChainId } from '@beland/schemas'
+import ConnectButton from 'components/ConnectButton'
 
 export default class LandSale extends React.PureComponent<Props> {
   state: State = {
     selected: [],
-    auctionEndTime: Date.now() + 10000,
-    auctionStartTime: Date.now() + 5000,
+    auctionEndTime: Date.now() + 1000000,
+    auctionStartTime: Date.now() - 1000000,
     countdownCompleted: 0
   }
+
+  inteval: any
+
   componentDidMount(): void {
     this.props.fetchTiles()
+    this.inteval = setInterval(() => {
+      this.props.fetchTiles()
+    }, 5000)
+  }
+
+  componentWillUnmount(): void {
+    clearInterval(this.inteval)
   }
 
   handleClick = (x: number, y: number): void => {
@@ -105,7 +118,13 @@ export default class LandSale extends React.PureComponent<Props> {
           <b>Total Price</b>: 1000 BEAN
         </div>
         <div className="claim-btn">
-          <Button primary>Claim Now</Button>
+          {this.props.isConnected ? (
+            <ChainButton chainId={ChainId.KAI_MAINNET} primary>
+              Claim Now
+            </ChainButton>
+          ) : (
+            <ConnectButton primary />
+          )}
         </div>
       </div>
     )

@@ -7,6 +7,7 @@ import { walletReducer as wallet } from '@beland/dapps/dist/modules/wallet/reduc
 import { toastReducer as toast } from '@beland/dapps/dist/modules/toast/reducer'
 import { identityReducer as identity } from 'modules/identity/reducer'
 import { tileReducer as tile } from 'modules/tile/reducer'
+import { translationReducer as translation } from '@beland/dapps/dist/modules/translation/reducer'
 
 
 import { RootState } from 'modules/common/types'
@@ -20,6 +21,7 @@ export function createRootReducer(history: History) {
       toast,
       identity,
       tile,
+      translation
     })
   )
 }

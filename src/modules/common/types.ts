@@ -8,6 +8,8 @@ import { ToastState } from '@beland/dapps/dist/modules/toast/reducer'
 import { RouterState } from 'connected-react-router'
 import { IdentityState } from 'modules/identity/reducer'
 import { TileState } from 'modules/tile/reducer'
+import { TranslationState } from '@beland/dapps/dist/modules/translation/reducer'
+
 const storageLoad = () => action(STORAGE_LOAD, {} as RootState)
 export type StorageLoadAction = ReturnType<typeof storageLoad>
 
@@ -19,6 +21,7 @@ export type RootState = {
   toast: ToastState
   identity: IdentityState
   tile: TileState,
+  translation: TranslationState
 }
 
 export type RootStore = Store<RootState>
