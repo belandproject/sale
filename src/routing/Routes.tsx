@@ -10,6 +10,7 @@ import { locations } from 'routing/locations'
 import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 import HomePage from 'components/HomePage'
+import LandSale from 'components/LandSale'
 
 import { Props, State } from './Routes.types'
 import './Routes.css'
@@ -52,6 +53,7 @@ export default class Routes extends React.Component<Props, State> {
         <Navbar/>
         <Switch>
           <Route exact path={locations.root()} component={HomePage} />
+          <Route exact path={locations.land()} component={LandSale} />
         </Switch>
       </>
     )

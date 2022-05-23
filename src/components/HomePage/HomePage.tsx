@@ -11,7 +11,7 @@ export default class HomePage extends React.PureComponent<Props> {
     return (
       <>
         <Page isFullscreen className="HomePage">
-          Home Page1
+          1
         </Page>
         <Footer />
       </>
