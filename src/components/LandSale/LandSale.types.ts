@@ -15,6 +15,7 @@ export type State = {
     selected: Array<string>
     auctionEndTime: number
     auctionStartTime: number
+    countdownCompleted: number
 }
 
 export type MapStateProps = Pick<Props, "tiles">

@@ -4,15 +4,15 @@ import { Atlas, Button, Container, Layer, Page } from '@beland/uikit'
 import Footer from 'components/Footer'
 import { Props, State } from './LandSale.types'
 import './LandSale.css'
-import LandCountdown from './components/LandCountdown/LandCountdown';
+import LandCountdown from './components/LandCountdown/LandCountdown'
 
 export default class LandSale extends React.PureComponent<Props> {
   state: State = {
     selected: [],
     auctionEndTime: Date.now() + 10000,
-    auctionStartTime: Date.now() - 10000
+    auctionStartTime: Date.now() + 5000,
+    countdownCompleted: 0
   }
-
   componentDidMount(): void {
     this.props.fetchTiles()
   }
@@ -46,7 +46,7 @@ export default class LandSale extends React.PureComponent<Props> {
   }
 
   reset = () => {
-    this.setState({selected: []})
+    this.setState({ selected: [] })
   }
 
   renderSelectedLands = () => {
@@ -54,7 +54,74 @@ export default class LandSale extends React.PureComponent<Props> {
     if (selected.length == 0) {
       return <span>Select the LANDs that will claim</span>
     }
-    return <div>Select {selected.length} Lands at {selected.map(land => `(${land})`).join(', ')} <span className='reset' onClick={this.reset}>RESET</span></div>
+    return (
+      <div>
+        Select {selected.length} Lands at {selected.map(land => `(${land})`).join(', ')}{' '}
+        <span className="reset" onClick={this.reset}>
+          RESET
+        </span>
+      </div>
+    )
+  }
+
+  renderTitle = () => {
+    const now = Date.now()
+    const { auctionStartTime, auctionEndTime } = this.state
+    if (auctionStartTime > now) {
+      return <h1>Land Auction will start in</h1>
+    } else if (auctionEndTime > now) {
+      return <h1>Land Auction is live!</h1>
+    } else {
+      return <h1>Auction has ended</h1>
+    }
+  }
+
+  handleCountdownComplete = () => {
+    return this.setState({ countdownCompleted: this.state.countdownCompleted++ })
+  }
+
+  isLive() {
+    const { auctionStartTime, auctionEndTime } = this.state
+    const now = Date.now()
+    return auctionStartTime < now && auctionEndTime > now
+  }
+
+  isEnd() {
+    const { auctionEndTime } = this.state
+    const now = Date.now()
+    return auctionEndTime <= now
+  }
+
+  renderSale = () => {
+    if (!this.isLive()) return
+
+    return (
+      <div>
+        <div className="summary">{this.renderSelectedLands()}</div>
+        <div className="price">
+          <b>Price</b>: 1000 BEAN
+        </div>
+        <div className="total_price">
+          <b>Total Price</b>: 1000 BEAN
+        </div>
+        <div className="claim-btn">
+          <Button primary>Claim Now</Button>
+        </div>
+      </div>
+    )
+  }
+
+  renderCountdown() {
+    if (this.isEnd()) return
+    return (
+      <div className="time">
+        <LandCountdown
+          onComplete={this.handleCountdownComplete}
+          startTime={this.state.auctionStartTime}
+          endTime={this.state.auctionEndTime}
+        />
+      </div>
+    )
   }
 
   render() {
@@ -63,19 +130,10 @@ export default class LandSale extends React.PureComponent<Props> {
         <Page isFullscreen className="LandSale">
           <Atlas onClick={this.handleClick} tiles={this.props.tiles} layers={[this.selectedStrokeLayer, this.selectedFillLayer]} />
         </Page>
-        <Container textAlign="center" className='landsale-form'>
-          <div className="land_sale_title"><h1>Land Auction is live!</h1></div>
-          <div className="time">
-            <LandCountdown 
-              startTime={this.state.auctionStartTime} 
-              endTime={this.state.auctionEndTime}/>
-          </div>
-          <div className="summary">{this.renderSelectedLands()}</div>
-          <div className="price"><b>Price</b>: 1000 BEAN</div>
-          <div className="total_price"><b>Total Price</b>: 1000 BEAN</div>
-          <div  className='claim-btn' >
-            <Button primary>Claim Now</Button>
-          </div>
+        <Container textAlign="center" className="landsale-form">
+          <div className="land_sale_title">{this.renderTitle()}</div>
+          {this.renderCountdown()}
+          {this.renderSale()}
         </Container>
         <Footer />
       </>
