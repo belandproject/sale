@@ -9,6 +9,7 @@ import { RouterState } from 'connected-react-router'
 import { IdentityState } from 'modules/identity/reducer'
 import { TileState } from 'modules/tile/reducer'
 import { TranslationState } from '@beland/dapps/dist/modules/translation/reducer'
+import { LandSaleState } from 'modules/landSale/reducer'
 
 const storageLoad = () => action(STORAGE_LOAD, {} as RootState)
 export type StorageLoadAction = ReturnType<typeof storageLoad>
@@ -22,6 +23,7 @@ export type RootState = {
   identity: IdentityState
   tile: TileState,
   translation: TranslationState
+  landSale: LandSaleState
 }
 
 export type RootStore = Store<RootState>

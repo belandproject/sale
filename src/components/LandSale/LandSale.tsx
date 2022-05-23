@@ -8,6 +8,7 @@ import LandCountdown from './components/LandCountdown/LandCountdown'
 import { ChainButton } from '@beland/dapps/dist/containers'
 import { ChainId } from '@beland/schemas'
 import ConnectButton from 'components/ConnectButton'
+import Balance from 'components/Balance'
 
 export default class LandSale extends React.PureComponent<Props> {
   state: State = {
@@ -21,8 +22,10 @@ export default class LandSale extends React.PureComponent<Props> {
 
   componentDidMount(): void {
     this.props.fetchTiles()
+    this.props.fetchLandSalePrice()
     this.inteval = setInterval(() => {
-      this.props.fetchTiles()
+      this.props.fetchTiles(),
+      this.props.fetchLandSalePrice()
     }, 5000)
   }
 
@@ -112,10 +115,10 @@ export default class LandSale extends React.PureComponent<Props> {
       <div>
         <div className="summary">{this.renderSelectedLands()}</div>
         <div className="price">
-          <b>Price</b>: 1000 BEAN
+          <b>Price</b>: <Balance value={this.props.price} decimals={4} prefix="BEAN " />
         </div>
         <div className="total_price">
-          <b>Total Price</b>: 1000 BEAN
+          <b>Total Price</b>: <Balance value={this.props.price * this.state.selected.length} decimals={4} prefix="BEAN " />
         </div>
         <div className="claim-btn">
           {this.props.isConnected ? (

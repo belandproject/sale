@@ -86,6 +86,7 @@
     "react-app-polyfill": "^0.2.0",
     "react-copy-to-clipboard": "^5.0.3",
     "react-countdown": "^2.3.2",
+    "react-countup": "^6.2.0",
     "react-dev-utils": "^7.0.0",
     "react-dnd": "^7.0.2",
     "react-dnd-html5-backend": "^7.0.2",

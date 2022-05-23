@@ -4,6 +4,7 @@ import { identitySaga } from 'modules/identity/sagas'
 import { modalSaga } from 'modules/modal/sagas'
 import { tileSaga } from 'modules/tile/sagas'
 import { translationSaga } from 'modules/translation/sagas'
+import { landSaleSaga } from 'modules/landSale/sagas'
 
 export function* rootSaga() {
   yield all([
@@ -11,6 +12,7 @@ export function* rootSaga() {
     identitySaga(),
     modalSaga(),
     tileSaga(),
-    translationSaga()
+    translationSaga(),
+    landSaleSaga()
   ])
 }
