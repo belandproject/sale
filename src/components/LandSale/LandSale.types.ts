@@ -12,7 +12,9 @@ export type Props = DefaultProps
 
 
 export type State = {
-    selected: Record<string, boolean>
+    selected: Array<string>
+    auctionEndTime: number
+    auctionStartTime: number
 }
 
 export type MapStateProps = Pick<Props, "tiles">

@@ -10,7 +10,9 @@ const mapState = (state: RootState): MapStateProps => ({
 })
 
 const mapDispatch = (dispatch: MapDispatch): MapDispatchProps => ({
-    fetchTiles: () => dispatch(fetchTilesRequest())
+    fetchTiles: () => {
+        return dispatch(fetchTilesRequest());
+    }
 })
 
 export default connect(mapState, mapDispatch)(LandSale)
