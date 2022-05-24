@@ -1,6 +1,7 @@
 import { ChainId } from '@beland/schemas'
 import { action } from 'typesafe-actions'
 import { buildTransactionPayload } from '@beland/dapps/dist/modules/transaction/utils'
+import {BigNumber} from 'ethers'
 
 /// FETCH LAND AUCTION PRICE
 /// --------------------------------
@@ -10,13 +11,13 @@ export const FETCH_LAND_SALE_PRICE_SUCCESS = '[Success] Fetch Land Sale Price'
 export const FETCH_LAND_SALE_PRICE_FAILURE = '[Failure] Fetch Land Sale Price'
 
 export const fetchLandPriceRequest = () => action(FETCH_LAND_SALE_PRICE_REQUEST)
-export const fetchLandPriceSuccess = (price: number) =>
+export const fetchLandPriceSuccess = (price: BigNumber) =>
   action(FETCH_LAND_SALE_PRICE_SUCCESS, { price })
 export const fetchLandPriceFailure = (error: string) =>
   action(FETCH_LAND_SALE_PRICE_FAILURE, { error })
 
 
-  export type FetchLandSalePriceRequestAction = ReturnType<typeof fetchLandPriceRequest>
+export type FetchLandSalePriceRequestAction = ReturnType<typeof fetchLandPriceRequest>
 export type FetchLandSalePriceSuccessAction = ReturnType<typeof fetchLandPriceSuccess>
 export type FetchLandSalePriceFailureAction = ReturnType<typeof fetchLandPriceFailure>
 

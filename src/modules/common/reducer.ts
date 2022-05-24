@@ -9,6 +9,8 @@ import { identityReducer as identity } from 'modules/identity/reducer'
 import { tileReducer as tile } from 'modules/tile/reducer'
 import { translationReducer as translation } from '@beland/dapps/dist/modules/translation/reducer'
 import { landSaleReducer as landSale } from 'modules/landSale/reducer'
+import { transactionReducer as transaction } from '@beland/dapps/dist/modules/transaction/reducer'
+import { authorizationReducer as authorization } from '@beland/dapps/dist/modules/authorization/reducer'
 
 
 import { RootState } from 'modules/common/types'
@@ -23,7 +25,9 @@ export function createRootReducer(history: History) {
       identity,
       tile,
       translation,
-      landSale
+      landSale,
+      transaction,
+      authorization
     })
   )
 }

@@ -5,6 +5,7 @@ import { modalSaga } from 'modules/modal/sagas'
 import { tileSaga } from 'modules/tile/sagas'
 import { translationSaga } from 'modules/translation/sagas'
 import { landSaleSaga } from 'modules/landSale/sagas'
+import { authorizationSaga } from '@beland/dapps/dist/modules/authorization/sagas'
 
 export function* rootSaga() {
   yield all([
@@ -13,6 +14,7 @@ export function* rootSaga() {
     modalSaga(),
     tileSaga(),
     translationSaga(),
-    landSaleSaga()
+    landSaleSaga(),
+    authorizationSaga()
   ])
 }

@@ -8,13 +8,29 @@ import LandCountdown from './components/LandCountdown/LandCountdown'
 import { ChainButton } from '@beland/dapps/dist/containers'
 import { ChainId } from '@beland/schemas'
 import ConnectButton from 'components/ConnectButton'
-import Balance from 'components/Balance'
+import { Wallet } from '@beland/dapps/dist/modules/wallet/types'
+import { LAND_AUCTION_CONTRACT } from 'modules/landSale/sagas'
+import { ContractName, getContract } from '@beland/transactions'
+import { AuthorizationType } from '@beland/dapps/dist/modules/authorization/types'
+import { hasAuthorization } from '@beland/dapps/dist/modules/authorization/utils'
+import { BigNumber, ethers } from 'ethers'
+
+function getAuthorization(wallet: Wallet) {
+  return {
+    address: wallet.address,
+    chainId: wallet.chainId,
+    contractAddress: getContract(ContractName.BEAN, wallet.chainId).address,
+    authorizedAddress: LAND_AUCTION_CONTRACT,
+    contractName: ContractName.BEAN,
+    type: AuthorizationType.ALLOWANCE
+  }
+}
 
 export default class LandSale extends React.PureComponent<Props> {
   state: State = {
     selected: [],
-    auctionEndTime: Date.now() + 1000000,
-    auctionStartTime: Date.now() - 1000000,
+    auctionEndTime: 1653989909000,
+    auctionStartTime:  1653385109000,
     countdownCompleted: 0
   }
 
@@ -26,6 +42,11 @@ export default class LandSale extends React.PureComponent<Props> {
     this.inteval = setInterval(() => {
       this.props.fetchTiles(), this.props.fetchLandSalePrice()
     }, 5000)
+  }
+
+  isApproved = () => {
+    if (!this.props.wallet) return false
+    return hasAuthorization(this.props.authorizations, getAuthorization(this.props.wallet))
   }
 
   componentWillUnmount(): void {
@@ -120,28 +141,45 @@ export default class LandSale extends React.PureComponent<Props> {
     return this.state.selected.filter(item => !this.props.tiles[item])
   }
 
+  handleGrantToken = () => {
+    if (!this.props.wallet) return
+    const authorization = getAuthorization(this.props.wallet)
+    return this.props.grantToken(authorization)
+  }
+
+  renderClaimBtn = () => {
+    if (this.isApproved()) {
+      const disabled = !this.getSelectedLands().length || this.props.isLoading
+      return (
+        <ChainButton chainId={ChainId.KAI_MAINNET} disabled={disabled} primary onClick={this.handleClaim}>
+          Claim Now
+        </ChainButton>
+      )
+    }
+    const disabled = this.props.isLoading
+    return (
+      <ChainButton chainId={ChainId.KAI_MAINNET} disabled={disabled} primary onClick={this.handleGrantToken}>
+        Approve
+      </ChainButton>
+    )
+  }
+
   renderSale = () => {
     if (!this.isLive()) return
     const selectedCount = this.getSelectedLands().length
-    const disabled = !selectedCount
+    const displayBalance = ethers.utils.formatUnits(this.props.price, 18)
+    const totalAmount = this.props.price.mul(BigNumber.from(selectedCount))
+    const displayTotalAmount = ethers.utils.formatUnits(totalAmount, 18)
     return (
       <div>
         <div className="summary">{this.renderSelectedLands()}</div>
         <div className="price">
-          <b>Price</b>: <Balance value={this.props.price} decimals={4} prefix="BEAN " />
+          <b>Price</b>: {displayBalance} BEAN
         </div>
         <div className="total_price">
-          <b>Total Price</b>: <Balance value={this.props.price * selectedCount} decimals={4} prefix="BEAN " />
+          <b>Total Price</b>: {displayTotalAmount} BEAN
         </div>
-        <div className="claim-btn">
-          {this.props.isConnected ? (
-            <ChainButton chainId={ChainId.KAI_MAINNET} disabled={disabled} primary onClick={this.handleClaim}>
-              Claim Now
-            </ChainButton>
-          ) : (
-            <ConnectButton primary />
-          )}
-        </div>
+        <div className="claim-btn">{this.props.isConnected ? this.renderClaimBtn() : <ConnectButton primary />}</div>
       </div>
     )
   }

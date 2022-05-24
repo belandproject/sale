@@ -1,17 +1,66 @@
-import { env } from 'decentraland-commons'
-import { takeEvery, put } from 'redux-saga/effects'
-import { fetchLandPriceFailure, fetchLandPriceSuccess, FetchLandSalePriceRequestAction, FETCH_LAND_SALE_PRICE_REQUEST } from './actions'
+import { ChainId } from '@beland/schemas'
+import { takeEvery, put, call } from 'redux-saga/effects'
+import {
+  claimLandFailure,
+  ClaimLandRequestAction,
+  claimLandSuccess,
+  CLAIM_LAND_REQUEST,
+  fetchLandPriceFailure,
+  fetchLandPriceSuccess,
+  FetchLandSalePriceRequestAction,
+  FETCH_LAND_SALE_PRICE_REQUEST
+} from './actions'
+import LandAuctionABI from 'abi/LandAuction.json'
+import { getConnectedProvider, getNetworkProvider } from '@beland/dapps/dist/lib/eth'
+import { Contract, ethers } from 'ethers'
+import { fetchAuthorizationsRequest, GrantTokenSuccessAction, GRANT_TOKEN_SUCCESS } from '@beland/dapps/dist/modules/authorization/actions'
+import { Provider } from '@beland/dapps/dist/modules/wallet/types'
+export const LAND_AUCTION_CONTRACT = '0x5744C567beD8A39A006f8FA9023632988CFd24D6'
+import { BigNumber } from 'ethers'
 
-export const MARKETPLACE_URL = env.get('REACT_APP_HUB_SERVER_URL', '')
 
 export function* landSaleSaga() {
   yield takeEvery(FETCH_LAND_SALE_PRICE_REQUEST, handleFetchLandSalePriceRequest)
+  yield takeEvery(CLAIM_LAND_REQUEST, handleClaimLandRequest)
+  yield takeEvery(GRANT_TOKEN_SUCCESS, handleGrantTokenSuccessRequest)
 }
 
 function* handleFetchLandSalePriceRequest(_action: FetchLandSalePriceRequestAction) {
   try {
-    yield put(fetchLandPriceSuccess(Math.random() * 10000000))
+    const price : BigNumber = yield call(getPrice)
+    yield put(fetchLandPriceSuccess(price))
   } catch (error) {
     yield put(fetchLandPriceFailure(error.message))
   }
+}
+
+async function getPrice() {
+  const provider : Provider = await getNetworkProvider(ChainId.KAI_MAINNET)
+  const web3 = new ethers.providers.Web3Provider(provider as any)
+  const contract: Contract = new ethers.Contract(LAND_AUCTION_CONTRACT, LandAuctionABI, web3)
+  return await contract.getPrice()
+}
+
+function* handleClaimLandRequest(_action: ClaimLandRequestAction) {
+  try {
+    const tx: string = yield call(claim, _action.payload.landIds)
+    yield put(claimLandSuccess(_action.payload.landIds, ChainId.KAI_MAINNET, tx))
+  } catch (error) {
+    yield put(claimLandFailure(_action.payload.landIds, error.message))
+  }
+}
+
+function* handleGrantTokenSuccessRequest(action: GrantTokenSuccessAction) {
+  yield put(fetchAuthorizationsRequest([action.payload.authorization]))
+}
+
+async function claim(landIds: number[]): Promise<string> {
+  const provider = await getConnectedProvider()
+  const web3 = new ethers.providers.Web3Provider(provider as any)
+  const signer = web3.getSigner()
+  const accounts = await web3.listAccounts()
+  const contract: Contract = new ethers.Contract(LAND_AUCTION_CONTRACT, LandAuctionABI, signer)
+  const tx = await contract.buy(accounts[0], landIds, '0x0000000000000000000000000000000000000000')
+  const reciept = await tx.wait()
+  return reciept.transactionHash
 }
