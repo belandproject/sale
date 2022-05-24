@@ -6,7 +6,7 @@ import { RootState } from 'modules/common/types'
 import { fetchTilesRequest } from 'modules/tile/actions'
 import { isConnected } from '@beland/dapps/dist/modules/wallet/selectors'
 import { getPrice } from 'modules/landSale/selectors'
-import { fetchLandPriceRequest } from 'modules/landSale/actions'
+import { claimLandRequest, fetchLandPriceRequest } from 'modules/landSale/actions'
 
 const mapState = (state: RootState): MapStateProps => ({
     tiles: getTiles(state),
@@ -17,6 +17,7 @@ const mapState = (state: RootState): MapStateProps => ({
 const mapDispatch = (dispatch: MapDispatch): MapDispatchProps => ({
     fetchTiles: () => dispatch(fetchTilesRequest()),
     fetchLandSalePrice:  () => dispatch(fetchLandPriceRequest()),
+    claim: (landIds: number[]) => dispatch(claimLandRequest(landIds)),
 })
 
 export default connect(mapState, mapDispatch)(LandSale)

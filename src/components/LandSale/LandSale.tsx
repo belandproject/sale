@@ -24,8 +24,7 @@ export default class LandSale extends React.PureComponent<Props> {
     this.props.fetchTiles()
     this.props.fetchLandSalePrice()
     this.inteval = setInterval(() => {
-      this.props.fetchTiles(),
-      this.props.fetchLandSalePrice()
+      this.props.fetchTiles(), this.props.fetchLandSalePrice()
     }, 5000)
   }
 
@@ -50,7 +49,7 @@ export default class LandSale extends React.PureComponent<Props> {
 
   isSelected = (x: number, y: number): boolean => {
     const key = `${x},${y}`
-    return this.state.selected.includes(key)
+    return this.getSelectedLands().includes(key)
   }
 
   selectedStrokeLayer: Layer = (x, y) => {
@@ -66,7 +65,7 @@ export default class LandSale extends React.PureComponent<Props> {
   }
 
   renderSelectedLands = () => {
-    const { selected } = this.state
+    const selected = this.getSelectedLands()
     if (selected.length == 0) {
       return <span>Select the LANDs that will claim</span>
     }
@@ -108,9 +107,23 @@ export default class LandSale extends React.PureComponent<Props> {
     return auctionEndTime <= now
   }
 
+  handleClaim = () => {
+    this.props.claim(
+      this.getSelectedLands().map((raw: string) => {
+        const coord = raw.split(',')
+        return ((Number(coord[0]) + 150) % 300) + (Number(coord[1]) + 150) * 300
+      })
+    )
+  }
+
+  getSelectedLands = (): string[] => {
+    return this.state.selected.filter(item => !this.props.tiles[item])
+  }
+
   renderSale = () => {
     if (!this.isLive()) return
-
+    const selectedCount = this.getSelectedLands().length
+    const disabled = !selectedCount
     return (
       <div>
         <div className="summary">{this.renderSelectedLands()}</div>
@@ -118,11 +131,11 @@ export default class LandSale extends React.PureComponent<Props> {
           <b>Price</b>: <Balance value={this.props.price} decimals={4} prefix="BEAN " />
         </div>
         <div className="total_price">
-          <b>Total Price</b>: <Balance value={this.props.price * this.state.selected.length} decimals={4} prefix="BEAN " />
+          <b>Total Price</b>: <Balance value={this.props.price * selectedCount} decimals={4} prefix="BEAN " />
         </div>
         <div className="claim-btn">
           {this.props.isConnected ? (
-            <ChainButton chainId={ChainId.KAI_MAINNET} primary>
+            <ChainButton chainId={ChainId.KAI_MAINNET} disabled={disabled} primary onClick={this.handleClaim}>
               Claim Now
             </ChainButton>
           ) : (
