@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import { contributeTokenRequest, ContributeTokenRequestAction, fetchTokenSaleInfoRequest, FetchTokenSaleInfoRequestAction } from 'modules/tokenSale/actions'
 
 export type DefaultProps = {
-    price: BigNumber
+    rate: BigNumber
     raised: BigNumber
     isLoading: boolean
     fetchTokenSaleInfo: typeof fetchTokenSaleInfoRequest
@@ -15,7 +15,7 @@ export type DefaultProps = {
 
 export type Props = DefaultProps & {}
 
-export type MapStateProps = Pick<Props, 'isLoading' | 'price' | 'raised' | 'isConnected' | 'address'>
+export type MapStateProps = Pick<Props, 'isLoading' | 'rate' | 'raised' | 'isConnected' | 'address'>
 export type MapDispatchProps = Pick<Props, 'fetchTokenSaleInfo'| 'contribute'>
 
 export type State = {

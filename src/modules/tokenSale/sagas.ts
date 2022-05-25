@@ -24,8 +24,8 @@ export function* tokenSaleSaga() {
 
 function* handleFetchTokenSaleInfoRequest(action: FetchTokenSaleInfoRequestAction) {
   try {
-    const info: { price: BigNumber; raised: BigNumber } = yield call(getInfo, action.payload.user)
-    yield put(fetchTokenSaleInfoSuccess(info.price, info.raised))
+    const info: { rate: BigNumber; raised: BigNumber } = yield call(getInfo, action.payload.user)
+    yield put(fetchTokenSaleInfoSuccess(info.rate, info.raised))
   } catch (error) {
     yield put(fetchTokenSaleInfoFailure(error.message))
   }
@@ -35,8 +35,8 @@ async function getInfo(user: string | undefined) {
   const provider: Provider = await getNetworkProvider(ChainId.KAI_MAINNET)
   const web3 = new ethers.providers.Web3Provider(provider as any)
   const contract: Contract = new ethers.Contract(BEAN_SALE_CONTRACT, BEANSaleABI, web3)
-  const [price, raised] = await Promise.all([contract.getPrice(user ? user : BEAN_SALE_CONTRACT), contract.raised()])
-  return { price: new BigNumber(price.toString()), raised: new BigNumber(raised.toString()) }
+  const [rate, raised] = await Promise.all([contract.getRate(user ? user : BEAN_SALE_CONTRACT), contract.raised()])
+  return { rate: new BigNumber(rate.toString()), raised: new BigNumber(raised.toString()) }
 }
 
 

@@ -9,7 +9,7 @@ import { getAddress, isConnected } from '@beland/dapps/dist/modules/wallet/selec
 
 const mapState = (state: RootState): MapStateProps => ({
     isLoading: isLoading(state),
-    price: getData(state).price,
+    rate: getData(state).rate,
     raised: getData(state).raised,
     isConnected: isConnected(state),
     address: getAddress(state)

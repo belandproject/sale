@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Container, Page, Input, Button } from '@beland/uikit'
+import { Container, Page, Input } from '@beland/uikit'
 
 import Footer from 'components/Footer'
 import { Props, State } from './HomePage.types'
@@ -10,10 +10,13 @@ import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
 import { getBalanceAmount, getBalanceNumber, getDecimalAmount } from 'lib/formatBalance'
 import ConnectButton from 'components/ConnectButton'
+import { ChainButton } from '@beland/dapps/dist/containers'
+import { ChainId } from '@beland/schemas'
 
 const START_TIME = 1653385109000
 const END_TIME = 1653989909000
-const CAP = new BigNumber(100000000000000000000000000)
+const CAP = new BigNumber('100000000000000000000000000')
+const ONE_KAI = new BigNumber('1000000000000000000')
 
 const KaiIcon = () => {
   return (
@@ -64,24 +67,30 @@ export default class HomePage extends React.PureComponent<Props> {
   handleContribute = () => {
     if (!this.props.address) return
     this.props.contribute(this.props.address, getDecimalAmount(new BigNumber(this.state.contributeAmount)))
-    this.setState({contributeAmount: 0})
+    this.setState({ contributeAmount: 0 })
   }
 
   renderButton = () => {
     if (!this.props.isConnected) {
-      return (<ConnectButton primary/>)
+      return <ConnectButton primary />
     }
 
     return (
-      <Button disabled={this.props.isLoading || !this.state.contributeAmount} onClick={this.handleContribute} primary>
+      <ChainButton
+        chainId={ChainId.KAI_MAINNET}
+        disabled={this.props.isLoading || !this.state.contributeAmount}
+        onClick={this.handleContribute}
+        primary
+      >
         Contribute KAI
-      </Button>
+      </ChainButton>
     )
   }
 
   render() {
     const contributeAmount = getDecimalAmount(new BigNumber(this.state.contributeAmount))
-    const beanReceive = contributeAmount.dividedBy(this.props.price)
+    const beanReceive = contributeAmount.multipliedBy(this.props.rate).div(new BigNumber(100))
+    const price = ONE_KAI.div(this.props.rate.div(new BigNumber(100)))
     return (
       <>
         <Page isFullscreen className="HomePage">
@@ -99,7 +108,7 @@ export default class HomePage extends React.PureComponent<Props> {
               </div>
 
               <div className="price">
-                <span>Price: </span> <Balance value={getBalanceNumber(this.props.price)} decimals={5} subfix=" KAI" prefix="" />
+                <span>Price: </span> <Balance value={getBalanceNumber(price)} decimals={5} subfix=" KAI" prefix="" />
               </div>
 
               <div className="form">
@@ -112,7 +121,7 @@ export default class HomePage extends React.PureComponent<Props> {
                   icon={<KaiIcon />}
                 />
                 <div className="bean_receive">
-                  <b>You will receive</b> <Balance value={beanReceive.toNumber()} prefix="~" subfix={' BEAN'} decimals={5} />
+                  <b>You will receive</b> <Balance value={getBalanceNumber(beanReceive)} subfix={' BEAN'} decimals={5} />
                 </div>
                 {this.renderButton()}
               </div>

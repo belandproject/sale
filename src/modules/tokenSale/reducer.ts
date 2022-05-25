@@ -4,13 +4,13 @@ import { BigNumber } from 'bignumber.js'
 import { FetchTokenSaleInfoFailureAction, FetchTokenSaleInfoRequestAction, FetchTokenSaleInfoSuccessAction, FETCH_TOKEN_SALE_INFO_FAILURE, FETCH_TOKEN_SALE_INFO_REQUEST, FETCH_TOKEN_SALE_INFO_SUCCESS } from './actions'
 
 export type TokenSaleState = {
-  data: { price: BigNumber, raised: BigNumber }
+  data: { rate: BigNumber, raised: BigNumber }
   loading: LoadingState
   error: string | null
 }
 
 const INITIAL_STATE: TokenSaleState = {
-  data: { price: new BigNumber(0), raised: new BigNumber(0) },
+  data: { rate: new BigNumber(0), raised: new BigNumber(0) },
   loading: [],
   error: null
 }

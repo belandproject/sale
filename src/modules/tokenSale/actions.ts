@@ -11,7 +11,7 @@ export const FETCH_TOKEN_SALE_INFO_SUCCESS = '[Success] Fetch Token Sale Info'
 export const FETCH_TOKEN_SALE_INFO_FAILURE = '[Failure] Fetch Token Sale Info'
 
 export const fetchTokenSaleInfoRequest = (user: string | undefined) => action(FETCH_TOKEN_SALE_INFO_REQUEST, {user})
-export const fetchTokenSaleInfoSuccess = (price: BigNumber, raised: BigNumber) => action(FETCH_TOKEN_SALE_INFO_SUCCESS, { price, raised })
+export const fetchTokenSaleInfoSuccess = (rate: BigNumber, raised: BigNumber) => action(FETCH_TOKEN_SALE_INFO_SUCCESS, { rate, raised })
 export const fetchTokenSaleInfoFailure = (error: string) => action(FETCH_TOKEN_SALE_INFO_FAILURE, { error })
 
 export type FetchTokenSaleInfoRequestAction = ReturnType<typeof fetchTokenSaleInfoRequest>

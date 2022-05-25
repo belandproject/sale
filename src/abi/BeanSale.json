@@ -251,7 +251,7 @@
 				"type": "address"
 			}
 		],
-		"name": "getPrice",
+		"name": "getRate",
 		"outputs": [
 			{
 				"internalType": "uint256",
