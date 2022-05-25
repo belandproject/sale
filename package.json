@@ -5,11 +5,11 @@
   "dependencies": {
     "@babylonjs/core": "^4.2.0",
     "@babylonjs/loaders": "^4.2.0",
-    "@beland/dapps": "^0.0.6",
+    "@beland/dapps": "^0.0.7",
     "@beland/ecs": "0.0.1",
     "@beland/schemas": "^0.0.4",
     "@beland/transactions": "^0.0.8",
-    "@beland/uikit": "github:belandproject/beland-ui",
+    "@beland/uikit": "^0.0.2",
     "@dcl/builder-client": "^1.7.1",
     "@dcl/content-hash-tree": "^1.1.2",
     "@inlet/react-pixi": "^6.8.0",

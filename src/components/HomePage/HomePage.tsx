@@ -10,8 +10,8 @@ import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
 import { getBalanceAmount, getBalanceNumber, getDecimalAmount } from 'lib/formatBalance'
 import ConnectButton from 'components/ConnectButton'
-import { ChainButton } from '@beland/dapps/dist/containers'
-import { ChainId } from '@beland/schemas'
+import { NetworkButton } from '@beland/dapps/dist/containers'
+import { Network } from '@beland/schemas'
 
 const START_TIME = 1653385109000
 const END_TIME = 1653989909000
@@ -76,14 +76,14 @@ export default class HomePage extends React.PureComponent<Props> {
     }
 
     return (
-      <ChainButton
-        chainId={ChainId.KAI_MAINNET}
+      <NetworkButton
+        network={Network.KAI}
         disabled={this.props.isLoading || !this.state.contributeAmount}
         onClick={this.handleContribute}
         primary
       >
         Contribute KAI
-      </ChainButton>
+      </NetworkButton>
     )
   }
 

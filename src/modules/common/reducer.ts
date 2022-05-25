@@ -12,9 +12,9 @@ import { landSaleReducer as landSale } from 'modules/landSale/reducer'
 import { transactionReducer as transaction } from '@beland/dapps/dist/modules/transaction/reducer'
 import { authorizationReducer as authorization } from '@beland/dapps/dist/modules/authorization/reducer'
 import { tokenSaleReducer as tokenSale } from 'modules/tokenSale/reducer'
-
-
+import { profileReducer as profile } from '@beland/dapps/dist/modules/profile/reducer'
 import { RootState } from 'modules/common/types'
+
 export function createRootReducer(history: History) {
   return storageReducerWrapper(
     combineReducers<RootState>({
@@ -29,7 +29,8 @@ export function createRootReducer(history: History) {
       landSale,
       transaction,
       authorization,
-      tokenSale
+      tokenSale,
+      profile
     })
   )
 }

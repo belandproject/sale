@@ -13,6 +13,7 @@ import { LandSaleState } from 'modules/landSale/reducer'
 import { TransactionState } from '@beland/dapps/dist/modules/transaction/reducer'
 import { AuthorizationState } from '@beland/dapps/dist/modules/authorization/reducer'
 import { TokenSaleState } from 'modules/tokenSale/reducer'
+import { ProfileState } from '@beland/dapps/dist/modules/profile/reducer'
 
 const storageLoad = () => action(STORAGE_LOAD, {} as RootState)
 export type StorageLoadAction = ReturnType<typeof storageLoad>
@@ -29,7 +30,8 @@ export type RootState = {
   landSale: LandSaleState
   transaction: TransactionState,
   authorization: AuthorizationState
-  tokenSale: TokenSaleState
+  tokenSale: TokenSaleState,
+  profile: ProfileState
 }
 
 export type RootStore = Store<RootState>
