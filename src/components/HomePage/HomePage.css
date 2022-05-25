@@ -1,0 +1,23 @@
+.HomePage .container .sale {
+    padding-top: 100px;
+    padding-bottom: 20px;
+    max-width: 350px;
+    margin: auto;
+}
+.HomePage .token-progress {
+    max-width: 300px;
+    margin: auto;
+}
+
+.HomePage .container .sale input {
+    max-width: 350px;
+}
+
+.HomePage .container .sale .input .icon {
+    padding-top: 20px;
+    padding-left: 10px;
+}
+
+.HomePage .bean_receive {
+    padding-bottom: 10px;
+}

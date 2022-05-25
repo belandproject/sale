@@ -10,3 +10,7 @@ export type Props = DefaultProps & {}
 export type MapStateProps = Props
 export type MapDispatchProps = Props
 export type MapDispatch = Dispatch<CallHistoryMethodAction>
+
+export type State = {
+    countdownStep: number
+}
