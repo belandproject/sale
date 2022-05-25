@@ -13,9 +13,11 @@
     max-width: 350px;
 }
 
-.HomePage .container .sale .input .icon {
-    padding-top: 20px;
-    padding-left: 10px;
+
+.HomePage .container .form .input {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 90%;
 }
 
 .HomePage .bean_receive {

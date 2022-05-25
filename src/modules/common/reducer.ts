@@ -11,6 +11,7 @@ import { translationReducer as translation } from '@beland/dapps/dist/modules/tr
 import { landSaleReducer as landSale } from 'modules/landSale/reducer'
 import { transactionReducer as transaction } from '@beland/dapps/dist/modules/transaction/reducer'
 import { authorizationReducer as authorization } from '@beland/dapps/dist/modules/authorization/reducer'
+import { tokenSaleReducer as tokenSale } from 'modules/tokenSale/reducer'
 
 
 import { RootState } from 'modules/common/types'
@@ -27,7 +28,8 @@ export function createRootReducer(history: History) {
       translation,
       landSale,
       transaction,
-      authorization
+      authorization,
+      tokenSale
     })
   )
 }

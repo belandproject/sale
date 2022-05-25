@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Container, Page, Field, Button } from '@beland/uikit'
+import { Container, Page, Input, Button } from '@beland/uikit'
 
 import Footer from 'components/Footer'
 import { Props, State } from './HomePage.types'
@@ -8,10 +8,12 @@ import LandCountdown from 'components/LandSale/components/LandCountdown/LandCoun
 import ProgressBar from 'components/ProgressBar/ProgressBar'
 import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
+import { getBalanceAmount, getBalanceNumber, getDecimalAmount } from 'lib/formatBalance'
+import ConnectButton from 'components/ConnectButton'
 
 const START_TIME = 1653385109000
 const END_TIME = 1653989909000
-const CAP = new BigNumber(100000000)
+const CAP = new BigNumber(100000000000000000000000000)
 
 const KaiIcon = () => {
   return (
@@ -23,7 +25,21 @@ const KaiIcon = () => {
 
 export default class HomePage extends React.PureComponent<Props> {
   state: State = {
-    countdownStep: 1
+    countdownStep: 1,
+    contributeAmount: 0
+  }
+
+  inteval: any
+
+  componentDidMount(): void {
+    this.props.fetchTokenSaleInfo(this.props.address)
+    this.inteval = setInterval(() => {
+      this.props.fetchTokenSaleInfo(this.props.address)
+    }, 5000)
+  }
+
+  componentWillUnmount(): void {
+    clearInterval(this.inteval)
   }
 
   handleCountdownComplete = () => {
@@ -41,7 +57,31 @@ export default class HomePage extends React.PureComponent<Props> {
     }
   }
 
+  handleChangeContributeAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ contributeAmount: event.target.value })
+  }
+
+  handleContribute = () => {
+    if (!this.props.address) return
+    this.props.contribute(this.props.address, getDecimalAmount(new BigNumber(this.state.contributeAmount)))
+    this.setState({contributeAmount: 0})
+  }
+
+  renderButton = () => {
+    if (!this.props.isConnected) {
+      return (<ConnectButton primary/>)
+    }
+
+    return (
+      <Button disabled={this.props.isLoading || !this.state.contributeAmount} onClick={this.handleContribute} primary>
+        Contribute KAI
+      </Button>
+    )
+  }
+
   render() {
+    const contributeAmount = getDecimalAmount(new BigNumber(this.state.contributeAmount))
+    const beanReceive = contributeAmount.dividedBy(this.props.price)
     return (
       <>
         <Page isFullscreen className="HomePage">
@@ -55,17 +95,26 @@ export default class HomePage extends React.PureComponent<Props> {
                 onComplete={this.handleCountdownComplete}
               />
               <div className="token-progress">
-                <ProgressBar value={new BigNumber(50000000)} max={CAP} />
+                <ProgressBar value={getBalanceAmount(this.props.raised)} max={getBalanceAmount(CAP)} />
               </div>
 
               <div className="price">
-                <span>Price: </span> <Balance value={1000} decimals={3} subfix=" KAI" prefix="" />
+                <span>Price: </span> <Balance value={getBalanceNumber(this.props.price)} decimals={5} subfix=" KAI" prefix="" />
               </div>
 
-              <div className='form'>
-                <Field placeholder={"0.00"} iconPosition='left' focus={true} icon={<KaiIcon />} />
-                <div className='bean_receive' ><b>You will receive</b>  <Balance value={10} prefix="~" subfix={' BEAN'} decimals={5}/></div>
-                <Button primary>Contribute KAI</Button>
+              <div className="form">
+                <Input
+                  onChange={this.handleChangeContributeAmount}
+                  value={this.state.contributeAmount}
+                  placeholder={'0.00'}
+                  iconPosition="left"
+                  focus={true}
+                  icon={<KaiIcon />}
+                />
+                <div className="bean_receive">
+                  <b>You will receive</b> <Balance value={beanReceive.toNumber()} prefix="~" subfix={' BEAN'} decimals={5} />
+                </div>
+                {this.renderButton()}
               </div>
             </div>
           </Container>
