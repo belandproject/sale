@@ -15,3 +15,8 @@ export const fetchReferralCodeFailure = (error: string) => action(FETCH_REFERRAL
 export type FetchReferralCodeRequestAction = ReturnType<typeof fetchReferralCodeRequest>
 export type FetchReferralCodeSuccessAction = ReturnType<typeof fetchReferralCodeSuccess>
 export type FetchReferralCodeFailureAction = ReturnType<typeof fetchReferralCodeFailure>
+
+
+export const SAVE_REFERRER = '[Save] Referrer'
+export const saveReferrerSuccess = (referrer: string) => action(SAVE_REFERRER, { referrer })
+export type  SaveReferrerAction = ReturnType<typeof saveReferrerSuccess>

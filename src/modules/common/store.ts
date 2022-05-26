@@ -17,6 +17,7 @@ import { createRootReducer } from './reducer'
 import { rootSaga } from './sagas'
 import { RootState, RootStore } from './types'
 import { DESTROY_IDENTITY, GENERATE_IDENTITY_SUCCESS, LOGIN_FAILURE, LOGIN_SUCCESS } from 'modules/identity/actions'
+import { SAVE_REFERRER } from 'modules/referral/actions'
 
 const builderVersion = require('../../../package.json').version
 
@@ -50,13 +51,15 @@ const { storageMiddleware, loadStorageMiddleware } = createStorageMiddleware({
   storageKey: 'belandSale',
   paths: [
     ['auth', 'data'],
-    ['identity', 'data']
+    ['identity', 'data'],
+    ['referral', 'data']
   ],
   actions: [
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     GENERATE_IDENTITY_SUCCESS,
-    DESTROY_IDENTITY
+    DESTROY_IDENTITY,
+    SAVE_REFERRER
   ],
   onError: (err, store) => {
     const isQuotaModalOpen = !!getOpenModals(store.getState())['QuotaExceededModal']

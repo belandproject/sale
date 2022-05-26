@@ -6,22 +6,24 @@ import {
   FetchReferralCodeSuccessAction,
   FETCH_REFERRAL_CODE_FAILURE,
   FETCH_REFERRAL_CODE_REQUEST,
-  FETCH_REFERRAL_CODE_SUCCESS
+  FETCH_REFERRAL_CODE_SUCCESS,
+  SaveReferrerAction,
+  SAVE_REFERRER
 } from './actions'
 
 export type ReferralState = {
-  data: { code: string }
+  data: { code: string, referrer: string }
   loading: LoadingState
   error: string | null
 }
 
 const INITIAL_STATE: ReferralState = {
-  data: { code: '' },
+  data: { code: '', referrer: '' },
   loading: [],
   error: null
 }
 
-type ReferralReducerAction = FetchReferralCodeRequestAction | FetchReferralCodeFailureAction | FetchReferralCodeSuccessAction
+type ReferralReducerAction = FetchReferralCodeRequestAction | FetchReferralCodeFailureAction | FetchReferralCodeSuccessAction | SaveReferrerAction
 
 export function referralReducer(state = INITIAL_STATE, action: ReferralReducerAction) {
   switch (action.type) {
@@ -37,6 +39,7 @@ export function referralReducer(state = INITIAL_STATE, action: ReferralReducerAc
         error: null,
         loading: loadingReducer(state.loading, action),
         data: {
+          ...state.data,
           code: action.payload.code
         }
       }
@@ -46,6 +49,15 @@ export function referralReducer(state = INITIAL_STATE, action: ReferralReducerAc
         ...state,
         error: action.payload.error,
         loading: loadingReducer(state.loading, action)
+      }
+    }
+    case SAVE_REFERRER: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          referrer: action.payload.referrer
+        }
       }
     }
     default:
