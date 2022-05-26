@@ -20,7 +20,7 @@ export type MapDispatchProps = Pick<Props, 'fetchTokenSaleInfo'| 'contribute'>
 
 export type State = {
     countdownStep: number
-    contributeAmount: number
+    contributeAmount: string
 }
 
 export type MapDispatch = Dispatch<

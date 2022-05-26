@@ -12,6 +12,7 @@ import { getBalanceAmount, getBalanceNumber, getDecimalAmount } from 'lib/format
 import ConnectButton from 'components/ConnectButton'
 import { NetworkButton } from '@beland/dapps/dist/containers'
 import { Network } from '@beland/schemas'
+import { ethers } from 'ethers'
 
 const START_TIME = 1653385109000
 const END_TIME = 1653989909000
@@ -29,7 +30,7 @@ const KaiIcon = () => {
 export default class HomePage extends React.PureComponent<Props> {
   state: State = {
     countdownStep: 1,
-    contributeAmount: 0
+    contributeAmount: ''
   }
 
   inteval: any
@@ -66,7 +67,7 @@ export default class HomePage extends React.PureComponent<Props> {
 
   handleContribute = () => {
     if (!this.props.address) return
-    this.props.contribute(this.props.address, getDecimalAmount(new BigNumber(this.state.contributeAmount)))
+    this.props.contribute(this.props.address, ethers.utils.parseEther(this.state.contributeAmount).toString())
     this.setState({ contributeAmount: 0 })
   }
 

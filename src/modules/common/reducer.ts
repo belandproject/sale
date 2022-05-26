@@ -14,6 +14,7 @@ import { authorizationReducer as authorization } from '@beland/dapps/dist/module
 import { tokenSaleReducer as tokenSale } from 'modules/tokenSale/reducer'
 import { profileReducer as profile } from '@beland/dapps/dist/modules/profile/reducer'
 import { RootState } from 'modules/common/types'
+import { referralReducer as referral } from 'modules/referral/reducer'
 
 export function createRootReducer(history: History) {
   return storageReducerWrapper(
@@ -30,7 +31,8 @@ export function createRootReducer(history: History) {
       transaction,
       authorization,
       tokenSale,
-      profile
+      profile,
+      referral
     })
   )
 }

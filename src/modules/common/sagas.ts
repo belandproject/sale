@@ -7,6 +7,7 @@ import { translationSaga } from 'modules/translation/sagas'
 import { landSaleSaga } from 'modules/landSale/sagas'
 import { authorizationSaga } from '@beland/dapps/dist/modules/authorization/sagas'
 import { tokenSaleSaga } from 'modules/tokenSale/sagas'
+import { referralSaga } from 'modules/referral/sagas'
 
 export function* rootSaga() {
   yield all([
@@ -17,6 +18,7 @@ export function* rootSaga() {
     translationSaga(),
     landSaleSaga(),
     authorizationSaga(),
-    tokenSaleSaga()
+    tokenSaleSaga(),
+    referralSaga()
   ])
 }

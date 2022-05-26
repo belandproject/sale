@@ -50,12 +50,12 @@ function* handleContributeRequest(action: ContributeTokenRequestAction) {
   }
 
 
-  async function contribute(user: string, amount: BigNumber): Promise<string> {
+  async function contribute(user: string, amount: string): Promise<string> {
     const provider = await getConnectedProvider()
     const web3 = new ethers.providers.Web3Provider(provider as any)
     const signer = web3.getSigner()
     const contract: Contract = new ethers.Contract(BEAN_SALE_CONTRACT, BEANSaleABI, signer)
-    const tx = await contract.buy(user, { value: amount.toString()})
+    const tx = await contract.buy(user, { value: amount})
     const reciept = await tx.wait()
     return reciept.transactionHash
   }

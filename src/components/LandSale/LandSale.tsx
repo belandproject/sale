@@ -13,7 +13,10 @@ import { LAND_AUCTION_CONTRACT } from 'modules/landSale/sagas'
 import { ContractName, getContract } from '@beland/transactions'
 import { AuthorizationType } from '@beland/dapps/dist/modules/authorization/types'
 import { hasAuthorization } from '@beland/dapps/dist/modules/authorization/utils'
-import { BigNumber, ethers } from 'ethers'
+import Balance from 'components/Balance'
+import { getBalanceNumber } from 'lib/formatBalance'
+import BigNumber from 'bignumber.js'
+import { Link } from 'react-router-dom'
 
 function getAuthorization(wallet: Wallet) {
   return {
@@ -30,7 +33,7 @@ export default class LandSale extends React.PureComponent<Props> {
   state: State = {
     selected: [],
     auctionEndTime: 1653989909000,
-    auctionStartTime:  1653385109000,
+    auctionStartTime: 1653385109000,
     countdownCompleted: 0
   }
 
@@ -167,17 +170,16 @@ export default class LandSale extends React.PureComponent<Props> {
   renderSale = () => {
     if (!this.isLive()) return
     const selectedCount = this.getSelectedLands().length
-    const displayBalance = ethers.utils.formatUnits(this.props.price, 18)
-    const totalAmount = this.props.price.mul(BigNumber.from(selectedCount))
-    const displayTotalAmount = ethers.utils.formatUnits(totalAmount, 18)
+    const price = getBalanceNumber(this.props.price, 18)
+    const spentBean = getBalanceNumber(this.props.price.multipliedBy(new BigNumber(selectedCount)))
     return (
       <div>
         <div className="summary">{this.renderSelectedLands()}</div>
         <div className="price">
-          <b>Price</b>: {displayBalance} BEAN
+          Current Auction Price <b><Balance value={price} subfix=" BEAN" decimals={18} /></b>
         </div>
         <div className="total_price">
-          <b>Total Price</b>: {displayTotalAmount} BEAN
+          You will spent <b><Balance value={spentBean} subfix=" BEAN" decimals={18} /></b>
         </div>
         <div className="claim-btn">{this.props.isConnected ? this.renderClaimBtn() : <ConnectButton primary />}</div>
       </div>
@@ -207,6 +209,8 @@ export default class LandSale extends React.PureComponent<Props> {
           <div className="land_sale_title">{this.renderTitle()}</div>
           {this.renderCountdown()}
           {this.renderSale()}
+
+          <div className='hint'><Link to={'/referral'}>Don't forget to refer your friends to earn 0.5% per transaction</Link></div>
         </Container>
         <Footer />
       </>

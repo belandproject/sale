@@ -25,8 +25,8 @@ export const CONTRIBUTE_TOKEN_REQUEST = '[Request] Contribute Token'
 export const CONTRIBUTE_TOKEN_SUCCESS = '[Success] Contribute Token'
 export const CONTRIBUTE_TOKEN_FAILURE = '[Failure] Contribute Token'
 
-export const contributeTokenRequest = (user: string, amount: BigNumber) => action(CONTRIBUTE_TOKEN_REQUEST, { amount, user})
-export const contributeTokenSuccess = (amount: BigNumber, chainId: ChainId, txHash: string) =>
+export const contributeTokenRequest = (user: string, amount: string) => action(CONTRIBUTE_TOKEN_REQUEST, { amount, user})
+export const contributeTokenSuccess = (amount: string, chainId: ChainId, txHash: string) =>
   action(CONTRIBUTE_TOKEN_SUCCESS, { amount, ...buildTransactionPayload(chainId, txHash, amount) })
 export const contributeTokenFailure = (error: string) => action(CONTRIBUTE_TOKEN_FAILURE, { error })
 

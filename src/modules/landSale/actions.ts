@@ -1,7 +1,7 @@
 import { ChainId } from '@beland/schemas'
 import { action } from 'typesafe-actions'
 import { buildTransactionPayload } from '@beland/dapps/dist/modules/transaction/utils'
-import {BigNumber} from 'ethers'
+import BigNumber from 'bignumber.js'
 
 /// FETCH LAND AUCTION PRICE
 /// --------------------------------

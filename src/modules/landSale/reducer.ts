@@ -1,5 +1,5 @@
 import { LoadingState } from '@beland/dapps/dist/modules/loading/reducer'
-import { BigNumber } from 'ethers'
+import BigNumber from 'bignumber.js'
 
 import {
   FetchLandSalePriceFailureAction,
@@ -16,7 +16,7 @@ export type LandSaleState = {
 }
 
 const INITIAL_STATE: LandSaleState = {
-  data: { price: BigNumber.from("0") },
+  data: { price: new BigNumber(0) },
   loading: [],
   error: null
 }

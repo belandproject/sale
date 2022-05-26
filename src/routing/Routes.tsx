@@ -11,9 +11,11 @@ import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 import HomePage from 'components/HomePage'
 import LandSale from 'components/LandSale'
+import ReferralPage from 'components/ReferralPage'
 
 import { Props, State } from './Routes.types'
 import './Routes.css'
+
 export default class Routes extends React.Component<Props, State> {
   state = {
     hasError: false,
@@ -54,6 +56,7 @@ export default class Routes extends React.Component<Props, State> {
         <Switch>
           <Route exact path={locations.root()} component={HomePage} />
           <Route exact path={locations.land()} component={LandSale} />
+          <Route exact path={locations.referral()} component={ReferralPage} />
         </Switch>
       </>
     )

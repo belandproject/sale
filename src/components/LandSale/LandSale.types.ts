@@ -6,7 +6,7 @@ import { claimLandRequest, ClaimLandRequestAction, fetchLandPriceRequest, FetchL
 import { grantTokenRequest, GrantTokenRequestAction } from '@beland/dapps/dist/modules/authorization/actions'
 import { Wallet } from '@beland/dapps/dist/modules/wallet/types'
 import { Authorization } from '@beland/dapps/dist/modules/authorization/types'
-import { BigNumber } from 'ethers'
+import BigNumber from 'bignumber.js'
 
 export type DefaultProps = {
   tiles: Record<string, AtlasTile>

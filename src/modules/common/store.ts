@@ -16,6 +16,7 @@ import { isDevelopment } from 'lib/environment'
 import { createRootReducer } from './reducer'
 import { rootSaga } from './sagas'
 import { RootState, RootStore } from './types'
+import { DESTROY_IDENTITY, GENERATE_IDENTITY_SUCCESS, LOGIN_FAILURE, LOGIN_SUCCESS } from 'modules/identity/actions'
 
 const builderVersion = require('../../../package.json').version
 
@@ -46,16 +47,16 @@ const loggerMiddleware = createLogger({
   collapsed: () => true
 })
 const { storageMiddleware, loadStorageMiddleware } = createStorageMiddleware({
-  storageKey: env.get('REACT_APP_LOCAL_STORAGE_KEY'),
+  storageKey: 'belandSale',
   paths: [
-    ['project', 'data'],
-    ['scene', 'present'],
-    ['ui', 'dashboard'],
     ['auth', 'data'],
-    ['sync', 'localProjectIds'],
     ['identity', 'data']
   ],
   actions: [
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    GENERATE_IDENTITY_SUCCESS,
+    DESTROY_IDENTITY
   ],
   onError: (err, store) => {
     const isQuotaModalOpen = !!getOpenModals(store.getState())['QuotaExceededModal']

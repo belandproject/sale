@@ -15,8 +15,8 @@ import { getConnectedProvider, getNetworkProvider } from '@beland/dapps/dist/lib
 import { Contract, ethers } from 'ethers'
 import { fetchAuthorizationsRequest, GrantTokenSuccessAction, GRANT_TOKEN_SUCCESS } from '@beland/dapps/dist/modules/authorization/actions'
 import { Provider } from '@beland/dapps/dist/modules/wallet/types'
+import BigNumber from 'bignumber.js'
 export const LAND_AUCTION_CONTRACT = '0x5744C567beD8A39A006f8FA9023632988CFd24D6'
-import { BigNumber } from 'ethers'
 
 
 export function* landSaleSaga() {
@@ -38,7 +38,8 @@ async function getPrice() {
   const provider : Provider = await getNetworkProvider(ChainId.KAI_MAINNET)
   const web3 = new ethers.providers.Web3Provider(provider as any)
   const contract: Contract = new ethers.Contract(LAND_AUCTION_CONTRACT, LandAuctionABI, web3)
-  return await contract.getPrice()
+  const price =  await contract.getPrice()
+  return new BigNumber(price.toString());
 }
 
 function* handleClaimLandRequest(_action: ClaimLandRequestAction) {
