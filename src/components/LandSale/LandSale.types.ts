@@ -25,8 +25,6 @@ export type Props = DefaultProps
 
 export type State = {
   selected: Array<string>
-  auctionEndTime: number
-  auctionStartTime: number
   countdownCompleted: number
 }
 

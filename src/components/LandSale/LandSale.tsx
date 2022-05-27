@@ -18,6 +18,9 @@ import { getBalanceNumber } from 'lib/formatBalance'
 import BigNumber from 'bignumber.js'
 import { Link } from 'react-router-dom'
 
+const START_TIME = 1653989909000
+const END_TIME = 1653385109000
+
 function getAuthorization(wallet: Wallet) {
   return {
     address: wallet.address,
@@ -32,8 +35,6 @@ function getAuthorization(wallet: Wallet) {
 export default class LandSale extends React.PureComponent<Props> {
   state: State = {
     selected: [],
-    auctionEndTime: 1653989909000,
-    auctionStartTime: 1653385109000,
     countdownCompleted: 0
   }
 
@@ -105,10 +106,9 @@ export default class LandSale extends React.PureComponent<Props> {
 
   renderTitle = () => {
     const now = Date.now()
-    const { auctionStartTime, auctionEndTime } = this.state
-    if (auctionStartTime > now) {
+    if (START_TIME > now) {
       return <h1>Land Auction will start in</h1>
-    } else if (auctionEndTime > now) {
+    } else if (END_TIME > now) {
       return <h1>Land Auction is live!</h1>
     } else {
       return <h1>Auction has ended</h1>
@@ -120,15 +120,13 @@ export default class LandSale extends React.PureComponent<Props> {
   }
 
   isLive() {
-    const { auctionStartTime, auctionEndTime } = this.state
     const now = Date.now()
-    return auctionStartTime < now && auctionEndTime > now
+    return START_TIME < now && END_TIME > now
   }
 
   isEnd() {
-    const { auctionEndTime } = this.state
     const now = Date.now()
-    return auctionEndTime <= now
+    return END_TIME <= now
   }
 
   handleClaim = () => {
@@ -192,8 +190,8 @@ export default class LandSale extends React.PureComponent<Props> {
       <div className="time">
         <LandCountdown
           onComplete={this.handleCountdownComplete}
-          startTime={this.state.auctionStartTime}
-          endTime={this.state.auctionEndTime}
+          startTime={START_TIME}
+          endTime={END_TIME}
         />
       </div>
     )
