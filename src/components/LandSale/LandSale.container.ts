@@ -12,15 +12,13 @@ import { Authorization } from '@beland/dapps/dist/modules/authorization/types'
 import { grantTokenRequest } from '@beland/dapps/dist/modules/authorization/actions'
 import { getData as getAuthorizations, isLoading } from '@beland/dapps/dist/modules/authorization/selectors'
 
-
-
 const mapState = (state: RootState): MapStateProps => ({
     tiles: getTiles(state),
     isConnected: isConnected(state),
     price: getPrice(state),
     wallet: getWallet(state),
     authorizations: getAuthorizations(state),
-    isLoading: isLoading(state) || landSaleLoading(state)
+    isLoading: isLoading(state) || landSaleLoading(state),
 })
 
 const mapDispatch = (dispatch: MapDispatch): MapDispatchProps => ({

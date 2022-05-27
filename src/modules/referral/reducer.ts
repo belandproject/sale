@@ -12,18 +12,22 @@ import {
 } from './actions'
 
 export type ReferralState = {
-  data: { code: string, referrer: string }
+  data: { code: string; referrer: string; referUser: string }
   loading: LoadingState
   error: string | null
 }
 
 const INITIAL_STATE: ReferralState = {
-  data: { code: '', referrer: '' },
+  data: { code: '', referrer: '', referUser: '' },
   loading: [],
   error: null
 }
 
-type ReferralReducerAction = FetchReferralCodeRequestAction | FetchReferralCodeFailureAction | FetchReferralCodeSuccessAction | SaveReferrerAction
+type ReferralReducerAction =
+  | FetchReferralCodeRequestAction
+  | FetchReferralCodeFailureAction
+  | FetchReferralCodeSuccessAction
+  | SaveReferrerAction
 
 export function referralReducer(state = INITIAL_STATE, action: ReferralReducerAction) {
   switch (action.type) {
@@ -56,7 +60,8 @@ export function referralReducer(state = INITIAL_STATE, action: ReferralReducerAc
         ...state,
         data: {
           ...state.data,
-          referrer: action.payload.referrer
+          referrer: action.payload.referrer,
+          referUser: action.payload.referUser
         }
       }
     }
