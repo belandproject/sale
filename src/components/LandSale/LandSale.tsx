@@ -18,8 +18,8 @@ import { getBalanceNumber } from 'lib/formatBalance'
 import BigNumber from 'bignumber.js'
 import { Link } from 'react-router-dom'
 
-const START_TIME = 1653989909000
-const END_TIME = 1653385109000
+const START_TIME = 1653385109000 
+const END_TIME = 1653989909000
 
 function getAuthorization(wallet: Wallet) {
   return {
